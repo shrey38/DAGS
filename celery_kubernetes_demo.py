@@ -1,17 +1,26 @@
 from datetime import datetime
+import time
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 
 def celery_task():
-    print("This task is executed by the Celery worker.")
-    print("Execution path: CeleryKubernetesExecutor -> Celery -> Redis -> Worker")
+    print("=== CELERY EXECUTION ===")
+    print("Task: celery_task")
+    print("Executor: CeleryKubernetesExecutor")
+    print("Queue: default")
+    print("Execution: Celery -> Redis -> Celery Worker")
+    time.sleep(30)
 
 
 def kubernetes_task():
-    print("This task is executed as a dedicated Kubernetes pod.")
-    print("Execution path: CeleryKubernetesExecutor -> KubernetesExecutor -> Pod")
+    print("=== KUBERNETES EXECUTION ===")
+    print("Task: kubernetes_task")
+    print("Executor: CeleryKubernetesExecutor")
+    print("Queue: kubernetes")
+    print("Execution: KubernetesExecutor -> Dedicated Kubernetes Pod")
+    time.sleep(30)
 
 
 with DAG(
